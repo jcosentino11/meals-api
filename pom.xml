@@ -9,7 +9,14 @@
     <packaging>jar</packaging>
 
     <name>meals-api</name>
-    <description>API to manage daily meal selections</description>
+    <description>API to for meal planning</description>
+
+    <developers>
+        <developer>
+            <name>Joseph Cosentino</name>
+            <email>jcosentino11@gmail.com</email>
+        </developer>
+    </developers>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
