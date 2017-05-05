@@ -1,5 +1,6 @@
 package me.josephcosentino.util;
 
+import me.josephcosentino.model.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -7,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -24,7 +25,7 @@ public final class Mappings {
         return new User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 
-    public static Collection<? extends GrantedAuthority> authoritiesFromRoles(@NotNull List<String> roles) {
-        return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+    public static Collection<? extends GrantedAuthority> authoritiesFromRoles(@NotNull Set<Role> roles) {
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getValue())).collect(Collectors.toSet());
     }
 }

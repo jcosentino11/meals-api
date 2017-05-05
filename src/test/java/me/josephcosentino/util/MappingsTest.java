@@ -1,5 +1,6 @@
 package me.josephcosentino.util;
 
+import me.josephcosentino.model.Role;
 import me.josephcosentino.model.User;
 import org.junit.Rule;
 import org.junit.Test;
@@ -8,7 +9,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static junit.framework.TestCase.assertTrue;
@@ -21,12 +24,18 @@ public class MappingsTest {
     private static final long ID = 1L;
     private static final String USERNAME = "user";
     private static final String PASSWORD = "pwd";
-    private static final List<String> ROLES;
+    private static final Set<Role> ROLES;
 
     static {
-        ROLES = new ArrayList<>();
-        ROLES.add("USER");
-        ROLES.add("ACTUATOR");
+        Role userRole = new Role();
+        userRole.setValue("USER");
+
+        Role actuatorRole = new Role();
+        actuatorRole.setValue("ACTUATOR");
+
+        ROLES = new HashSet<>();
+        ROLES.add(userRole);
+        ROLES.add(actuatorRole);
     }
 
     @Rule
@@ -73,8 +82,10 @@ public class MappingsTest {
 
     @Test
     public void authoritiesFromSingleRole() {
-        List<String> roles = new ArrayList<>();
-        roles.add("ROLE");
+        Set<Role> roles = new HashSet<>();
+        Role role = new Role();
+        role.setValue("ROLE");
+        roles.add(role);
 
         User user = new User();
         user.setId(ID);
@@ -86,7 +97,7 @@ public class MappingsTest {
 
         assertTrue(details.getAuthorities()
                 .stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())
-                .containsAll(user.getRoles()));
+                .containsAll(user.getRoles().stream().map(Role::getValue).collect(Collectors.toList())));
     }
 
     @Test
@@ -101,7 +112,7 @@ public class MappingsTest {
 
         assertTrue(details.getAuthorities()
                 .stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())
-                .containsAll(user.getRoles()));
+                .containsAll(user.getRoles().stream().map(Role::getValue).collect(Collectors.toList())));
     }
 
 }
