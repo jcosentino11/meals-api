@@ -27,7 +27,7 @@ public class Meal {
     @Enumerated(EnumType.STRING)
     private MealType mealType;
 
-    private String instructions;
+    private String recipe;
 
     @OneToMany(mappedBy = "meal")
     private Set<MealIngredient> mealsIngredients;
@@ -75,12 +75,12 @@ public class Meal {
         this.mealType = mealType;
     }
 
-    public String getInstructions() {
-        return instructions;
+    public String getRecipe() {
+        return recipe;
     }
 
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
+    public void setRecipe(String recipe) {
+        this.recipe = recipe;
     }
 
     public Set<MealIngredient> getMealsIngredients() {
@@ -107,7 +107,7 @@ public class Meal {
                 ", prepTime=" + prepTime +
                 ", cookTime=" + cookTime +
                 ", mealType=" + mealType +
-                ", instructions='" + instructions + '\'' +
+                ", recipe='" + recipe + '\'' +
                 ", mealsIngredients=" + mealsIngredients +
                 ", plannedMeals=" + plannedMeals +
                 '}';
