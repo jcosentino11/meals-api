@@ -1,8 +1,5 @@
 package me.josephcosentino.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -29,7 +26,6 @@ public class PlannedMeal {
     private Boolean completed;
 
     @Column(nullable = false)
-    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate date;
 
     public Meal getMeal() {
