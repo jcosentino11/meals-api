@@ -1,1 +1,0 @@
-INSERT INTO GROUPS (GROUP_ID, NAME) VALUES (1, 'test-group');
