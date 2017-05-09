@@ -1,5 +1,7 @@
 package me.josephcosentino.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -17,7 +19,8 @@ public class Group {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "group")
+    @JsonBackReference
+    @ManyToMany(mappedBy = "groups")
     private Set<User> users;
 
     public Long getId() {
@@ -51,5 +54,23 @@ public class Group {
                 ", name='" + name + '\'' +
                 ", users=" + users +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Group group = (Group) o;
+
+        if (!id.equals(group.id)) return false;
+        return name.equals(group.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        return result;
     }
 }
