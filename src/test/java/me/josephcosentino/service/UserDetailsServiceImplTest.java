@@ -1,8 +1,8 @@
 package me.josephcosentino.service;
 
-import me.josephcosentino.dao.UserDao;
 import me.josephcosentino.model.Role;
 import me.josephcosentino.model.User;
+import me.josephcosentino.repository.UserRepository;
 import me.josephcosentino.service.impl.UserDetailsServiceImpl;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,9 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -52,14 +50,14 @@ public class UserDetailsServiceImplTest {
     public ExpectedException exception = ExpectedException.none();
 
     @Mock
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @InjectMocks
     private UserDetailsServiceImpl userDetailsService;
 
     @Test
     public void failOnNullUser() {
-        when(userDao.getUserByUsername(USERNAME)).thenReturn(null);
+        when(userRepository.getUserByUsername(USERNAME)).thenReturn(null);
         exception.expect(UsernameNotFoundException.class);
         userDetailsService.loadUserByUsername(USERNAME);
     }
@@ -72,7 +70,7 @@ public class UserDetailsServiceImplTest {
         user.setPassword(PASSWORD);
         user.setRoles(ROLES);
 
-        when(userDao.getUserByUsername(USERNAME)).thenReturn(user);
+        when(userRepository.getUserByUsername(USERNAME)).thenReturn(user);
         UserDetails details = userDetailsService.loadUserByUsername(USERNAME);
 
         assertEquals(details.getUsername(), user.getUsername());
