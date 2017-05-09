@@ -29,6 +29,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <coveralls.version>4.3.0</coveralls.version>
+        <jacoco.version>0.7.6.201602180812</jacoco.version>
     </properties>
 
     <dependencies>
@@ -100,8 +102,25 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco.version}</version>
+            <executions>
+                <execution>
+                    <id>prepare-agent</id>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>${coveralls.version}</version>
+            </plugin>
         </plugins>
     </build>
-
 
 </project>
