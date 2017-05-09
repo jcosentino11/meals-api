@@ -1,5 +1,7 @@
 package me.josephcosentino.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +20,7 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String value;
 
+    @JsonBackReference
     @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(
