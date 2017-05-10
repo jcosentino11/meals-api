@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -35,11 +36,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 // Override properties for Heroku Deployment
+@DirtiesContext
 @SpringBootTest(properties = {
         "SPRING_JPA_DATABASE-PLATFORM=",
         "SPRING_DATASOURCE_URL=",
         "SPRING_DATASOURCE_USERNAME=",
-        "SPRING_DATASOURCE_DRIVER-CLASS-NAME="
+        "SPRING_DATASOURCE_DRIVER-CLASS-NAME=",
+        "SPRING_DATASOURCE_PASSWORD="
 })
 @WithMockUser(roles = "ADMIN")
 public class ApiDocumentationTest {
