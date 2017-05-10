@@ -21,7 +21,8 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -33,7 +34,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Joseph Cosentino.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+// Override properties for Heroku Deployment
+@SpringBootTest(properties = {
+        "SPRING_JPA_DATABASE-PLATFORM=",
+        "SPRING_DATASOURCE_URL=",
+        "SPRING_DATASOURCE_USERNAME=",
+        "SPRING_DATASOURCE_DRIVER-CLASS-NAME="
+})
 @WithMockUser(roles = "ADMIN")
 public class ApiDocumentationTest {
 
