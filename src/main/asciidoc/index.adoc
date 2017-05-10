@@ -6,7 +6,7 @@ Joseph Cosentino
 :toc: left
 :toclevels: 4
 :sectlinks:
-:operation-http-request-title: Example request
+:operation-curl-request-title: Example request
 :operation-http-response-title: Example response
 
 [[overview]]
@@ -67,4 +67,65 @@ The users resource is used for retrieving users
 
 A `GET` request is used to retrieve all users
 
-operation::user-findAll[snippets='http-request,http-response,request-parameters,request-headers,response-fields']
+operation::user-findAll[snippets='curl-request,http-response,request-parameters,request-headers,response-fields']
+
+[[resources-user-findById]]
+=== Find user by id
+
+A `GET` request is used to retrieve a user by id
+
+operation::user-findById[snippets='curl-request,http-response,path-parameters,request-headers,response-fields']
+
+[[resources-user-clearCache]]
+=== Clear user cache
+
+A `DELETE` request is used to clear the user cache
+
+operation::user-clearCache[snippets='curl-request,http-response,request-headers']
+
+[[resources-user-clearCacheById]]
+=== Clear user cache by id
+
+A `DELETE` request is used to clear the user cache by id
+
+operation::user-clearCacheById[snippets='curl-request,http-response,request-headers']
+
+[[resources-group]]
+== Group
+
+The groups resource is used for retrieving groups
+
+[[resources-group-findAll]]
+=== Find all groups
+
+A `GET` request is used to retrieve all groups
+
+operation::group-findAll[snippets='curl-request,http-response,request-parameters,request-headers,response-fields']
+
+[[resources-group-findById]]
+=== Find group by id
+
+A `GET` request is used to retrieve a group by id
+
+operation::group-findById[snippets='curl-request,http-response,path-parameters,request-headers,response-fields']
+
+[[resources-group-findUsers]]
+=== Find a group's users
+
+A `GET` request is used to retrieve a group's users
+
+operation::group-findUsers[snippets='curl-request,http-response,path-parameters,request-headers,response-fields']
+
+[[resources-group-clearCache]]
+=== Clear group cache
+
+A `DELETE` request is used to clear the group cache
+
+operation::group-clearCache[snippets='curl-request,http-response,request-headers']
+
+[[resources-group-clearCacheById]]
+=== Clear group cache by id
+
+A `DELETE` request is used to clear the group cache by id
+
+operation::group-clearCacheById[snippets='curl-request,http-response,request-headers']
