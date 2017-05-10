@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,7 +22,8 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -33,7 +35,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Joseph Cosentino.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+// Override properties for Heroku Deployment
+@DirtiesContext
+@SpringBootTest(properties = {
+        "SPRING_JPA_DATABASE-PLATFORM=",
+        "SPRING_DATASOURCE_URL=",
+        "SPRING_DATASOURCE_USERNAME=",
+        "SPRING_DATASOURCE_DRIVER-CLASS-NAME=",
+        "SPRING_DATASOURCE_PASSWORD="
+})
 @WithMockUser(roles = "ADMIN")
 public class ApiDocumentationTest {
 
