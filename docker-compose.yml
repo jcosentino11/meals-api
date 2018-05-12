@@ -1,0 +1,22 @@
+version: '3.6'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: changeme
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8085:8080
+
+  meals-api:
+    image: meals-api:latest
+    links:
+      - db:meals-db
+    ports:
+      - 8084:8084
