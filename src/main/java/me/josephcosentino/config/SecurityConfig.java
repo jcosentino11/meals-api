@@ -1,12 +1,11 @@
 package me.josephcosentino.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final int BCRYPT_STRENGTH = 11;
 
+    @Value("#{servletContext.contextPath}")
+    private String servletContextPath;
+
     @Resource(name = "userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
@@ -30,21 +32,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/api").hasAnyRole("USER", "ADMIN")
+                    .antMatchers(pattern("/api")).hasAnyRole("USER", "ADMIN")
                 .anyRequest()
-                    .authenticated().and()
-                .authenticationProvider(authenticationProvider())
+                    .permitAll()
+                .and().authenticationProvider(authenticationProvider())
                 .httpBasic().and().csrf().disable();
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/docs/**");
     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(bcryptPasswordEncoder());
         return authProvider;
@@ -53,6 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder bcryptPasswordEncoder() {
         return new BCryptPasswordEncoder(BCRYPT_STRENGTH);
+    }
+
+    private String pattern(String pattern) {
+        return servletContextPath + pattern;
     }
 
 }
