@@ -20,3 +20,4 @@ services:
       - db:meals-db
     ports:
       - 8084:8084
+      - 5005:5005
