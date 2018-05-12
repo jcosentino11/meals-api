@@ -1,6 +1,6 @@
 package me.josephcosentino.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 
 /**
  * @author Joseph Cosentino.
@@ -22,8 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final int BCRYPT_STRENGTH = 11;
 
-    @Value("#{servletContext.contextPath}")
-    private String servletContextPath;
+    @Autowired(required = false)
+    private ServletContext servletContext;
 
     @Resource(name = "userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
@@ -53,7 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private String pattern(String pattern) {
-        return servletContextPath + pattern;
+        if (servletContext == null) {
+            return "";
+        }
+        return servletContext.getContextPath() + pattern;
     }
 
 }
